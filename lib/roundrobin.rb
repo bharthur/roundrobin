@@ -8,9 +8,9 @@ class Roundrobin
     @redis = redis_conn.nil? ? Redis.new : Redis.new(url: redis_conn)
   end
 
-  def next(candidates)
+  def next(candidates, id = nil)
     return nil unless candidates.is_a?(Array) and candidates.length > 0
-    identifier = get_hash(candidates)
+    identifier = id || get_hash(candidates)
     iterator = @redis.get(identifier)
     if iterator.nil?
       iterator   = -1 
